@@ -1,0 +1,18 @@
+[package]
+name = "actix-multipart-test"
+version = "0.1.0"
+edition = "2021"
+license = "Apache-2.0"
+authors = ["Jonatan Lemes"]
+description = "A simple actix multipart form data builder"
+repository = "https://github.com/jslsolucoes/actix-multipart-test"
+homepage = "https://github.com/jslsolucoes/actix-multipart-test"
+documentation = "https://docs.rs/actix-multipart-test"
+readme = "README.md"
+keywords = ["actix", "multipart", "form", "data", "builder"]
+categories = ["web-programming"]
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+uuid = { version = "1.6.1" , features = ["v4"] }
