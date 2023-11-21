@@ -10,6 +10,7 @@ with actix-web endpoints.
 #[cfg(test)]
 mod tests {
 
+    use actix_multipart_test::MultiPartFormDataBuilder;
     use actix_web::{test, App};
     use super::*;
 

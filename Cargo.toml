@@ -16,3 +16,6 @@ categories = ["web-programming"]
 
 [dependencies]
 uuid = { version = "1.6.1" , features = ["v4"] }
+
+[dev-dependencies]
+actix-web = { version = "4.4.0" }

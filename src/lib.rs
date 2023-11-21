@@ -9,7 +9,7 @@ use uuid::Uuid;
 /// ```
 /// #[cfg(test)]
 /// mod tests {
-///
+///     use actix_multipart_test::MultiPartFormDataBuilder;
 ///     use actix_web::{test, App};
 ///     use super::*;
 ///
@@ -56,8 +56,11 @@ impl MultiPartFormDataBuilder {
     }
 
     /// Add text to multipart/form-data
+    ///
     /// name is form name
+    ///
     /// value is form value
+    ///
     /// Returns &mut MultiPartFormDataBuilder
     pub fn with_text(
         &mut self,
@@ -70,9 +73,13 @@ impl MultiPartFormDataBuilder {
     }
 
     /// Add file to multipart/form-data
+    ///
     /// path is file path
+    ///
     /// name is form name
+    ///
     /// content_type is file content type
+    ///
     /// file_name is file name
     pub fn with_file(
         &mut self,
@@ -91,9 +98,13 @@ impl MultiPartFormDataBuilder {
     }
 
     /// Build multipart/form-data
+    ///
     /// Returns ((header_name, header_value), body)
+    ///
     /// header_name is "Content-Type"
+    ///
     /// header_value is "multipart/form-data; boundary=..."
+    ///
     /// body is binary data
     pub fn build(&self) -> ((String, String), Vec<u8>) {
         let boundary = Uuid::new_v4().to_string();
