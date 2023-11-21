@@ -47,7 +47,6 @@ pub struct MultiPartFormDataBuilder {
 }
 
 impl MultiPartFormDataBuilder {
-
     /// Create new MultiPartFormDataBuilder
     pub fn new() -> MultiPartFormDataBuilder {
         MultiPartFormDataBuilder {
@@ -60,25 +59,34 @@ impl MultiPartFormDataBuilder {
     /// name is form name
     /// value is form value
     /// Returns &mut MultiPartFormDataBuilder
-    pub fn with_text(&mut self,
-                     name: impl Into<String>,
-                     value: impl Into<String>) -> &mut MultiPartFormDataBuilder {
-        self.texts.push((name.into(), value.into(), "text/plain".to_string()));
+    pub fn with_text(
+        &mut self,
+        name: impl Into<String>,
+        value: impl Into<String>,
+    ) -> &mut MultiPartFormDataBuilder {
+        self.texts
+            .push((name.into(), value.into(), "text/plain".to_string()));
         self
     }
-
 
     /// Add file to multipart/form-data
     /// path is file path
     /// name is form name
     /// content_type is file content type
     /// file_name is file name
-    pub fn with_file(&mut self,
-                     path: impl AsRef<Path> + 'static,
-                     name: impl Into<String>,
-                     content_type: impl Into<String>,
-                     file_name: impl Into<String>) -> &mut MultiPartFormDataBuilder {
-        self.files.push((name.into(), file_name.into(), content_type.into(), Box::new(path)));
+    pub fn with_file(
+        &mut self,
+        path: impl AsRef<Path> + 'static,
+        name: impl Into<String>,
+        content_type: impl Into<String>,
+        file_name: impl Into<String>,
+    ) -> &mut MultiPartFormDataBuilder {
+        self.files.push((
+            name.into(),
+            file_name.into(),
+            content_type.into(),
+            Box::new(path),
+        ));
         self
     }
 
@@ -94,7 +102,13 @@ impl MultiPartFormDataBuilder {
 
         for file in self.files.iter() {
             body.extend(format!("--{}\r\n", boundary).as_bytes());
-            body.extend(format!("Content-Disposition: form-data; name=\"{}\"; filename=\"{}\"\r\n", file.0, file.1).as_bytes());
+            body.extend(
+                format!(
+                    "Content-Disposition: form-data; name=\"{}\"; filename=\"{}\"\r\n",
+                    file.0, file.1
+                )
+                .as_bytes(),
+            );
             body.extend(format!("Content-Type: {}\r\n", file.2).as_bytes());
             let data = std::fs::read(file.3.as_ref()).unwrap();
             body.extend(format!("Content-Length: {}\r\n\r\n", data.len()).as_bytes());
@@ -104,7 +118,9 @@ impl MultiPartFormDataBuilder {
 
         for text in self.texts.iter() {
             body.extend(format!("--{}\r\n", boundary).as_bytes());
-            body.extend(format!("Content-Disposition: form-data; name=\"{}\"\r\n", text.0).as_bytes());
+            body.extend(
+                format!("Content-Disposition: form-data; name=\"{}\"\r\n", text.0).as_bytes(),
+            );
             body.extend(format!("Content-Type: {}\r\n", text.2).as_bytes());
             let data = text.1.as_bytes();
             body.extend(format!("Content-Length: {}\r\n\r\n", data.len()).as_bytes());
@@ -128,7 +144,12 @@ mod tests {
     #[test]
     fn test_should_build_multipart_form_with_text() {
         let mut multipart_form_data_builder = MultiPartFormDataBuilder::new();
-        multipart_form_data_builder.with_file("tests/sample.png", "sample", "image/png", "sample.png");
+        multipart_form_data_builder.with_file(
+            "tests/sample.png",
+            "sample",
+            "image/png",
+            "sample.png",
+        );
         multipart_form_data_builder.with_text("name", "some_name");
         let (header, body) = multipart_form_data_builder.build();
 
