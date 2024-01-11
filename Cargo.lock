@@ -70,7 +70,7 @@ dependencies = [
 
 [[package]]
 name = "actix-multipart-test"
-version = "0.0.1"
+version = "0.0.3"
 dependencies = [
  "actix-web",
  "uuid",

@@ -139,7 +139,7 @@ impl MultiPartFormDataBuilder {
             body.extend("\r\n".as_bytes());
         }
 
-        body.extend(format!("--{}\r\n", boundary).as_bytes());
+        body.extend(format!("--{}--\r\n", boundary).as_bytes());
 
         let header_value = format!("multipart/form-data; boundary={}", boundary);
         let header = ("Content-Type".to_string(), header_value);
